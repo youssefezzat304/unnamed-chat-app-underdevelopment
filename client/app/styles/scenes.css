@@ -1,0 +1,97 @@
+.add-friend-main {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: 20;
+}
+.overlay {
+  background-color: rgba(19, 19, 19, 0.747);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  width: inherit;
+  height: inherit;
+}
+.add-friend-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+  width: 70%;
+  background-color: var(--white);
+  border-radius: 20px;
+}
+.add-friend-card label{
+  font-weight: 700;
+  font-size: x-large;
+}
+.add-friend-container {
+  position: relative;
+  background-color: var(--primary-soft);
+  padding: 20px 50px;
+  width: 95%;
+  height: 90%;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.add-friend-container input{
+  display: flex;
+  width: 100%;
+  padding: 16px;
+  border-radius: 10px;
+  font-size: large;
+}
+.input-container button{
+  position: absolute;
+  font-size: large;
+  right: 6px;
+  background-color: var(--primary-hard);
+  color: white;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+.input-container button:hover{
+  background-color: rgba(60, 0, 128, 0.8);
+}
+.add-friend-container .cancel-Btn {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  background-color: rgb(255, 5, 5);
+  width: 100px;
+  font-size: large;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+/* --------------- Create New Contact ------------*/
+.create-contact-card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+  width: 70%;
+  background-color: var(--white);
+  border-radius: 20px;
+}
+/* --------------- Profile ------------*/
+.profile-settings-sec{
+  background-color: var(--secondary-soft);
+  margin-left: 6px;
+  border-radius: 22px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

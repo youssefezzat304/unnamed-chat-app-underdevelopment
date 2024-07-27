@@ -1,0 +1,785 @@
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.tsx","import":"Inter","arguments":[{"subsets":["latin"]}],"variableName":"inter"} ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/* cyrillic-ext */
+@font-face {
+  font-family: '__Inter_aaf875';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/_next/static/media/ec159349637c90ad-s.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: '__Inter_aaf875';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/_next/static/media/513657b02c5c193f-s.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: '__Inter_aaf875';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/_next/static/media/fd4db3eb5472fc27-s.woff2) format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: '__Inter_aaf875';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/_next/static/media/51ed15f9841b9f9d-s.woff2) format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: '__Inter_aaf875';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/_next/static/media/05a31a2ca4975f99-s.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: '__Inter_aaf875';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/_next/static/media/d6b16ce4a6175f26-s.woff2) format('woff2');
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: '__Inter_aaf875';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}@font-face {font-family: '__Inter_Fallback_aaf875';src: local("Arial");ascent-override: 90.49%;descent-override: 22.56%;line-gap-override: 0.00%;size-adjust: 107.06%
+}.__className_aaf875 {font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';font-style: normal
+}
+
+/*!********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[3]!./app/styles/globals.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************/
+:root {
+  --primary-soft: #9f97e4;
+  --primary-hard: #7678ed;
+  --primary-dark: #202022;
+
+  --secondary-soft: #c7c3fc;
+
+  --input-color: #d2cdffcc;
+  --Dark-theme-Btn: #2e334a;
+
+  --log-out: #f25c54;
+
+  --error-soft: #ef7674;
+  --error-hard: #902923;
+
+  --remove-Btn:#f02d3a;
+
+  --text-gray:#6c757d;
+
+  --white: #f9fafc;
+}
+body {
+  overflow-y: hidden;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.bg {
+  position: absolute;
+  z-index: -10;
+  min-height: 100vh;
+}
+/* --------------------------- ERRORS --------------------------------------- */
+.max-size-img-error{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--error-soft);
+  position: absolute;
+  z-index: 10;
+  bottom: -5px;
+  left: 50px;
+  min-width: 25rem;
+  max-width: 32rem;
+  border-radius: 20px;
+  padding: 1.5rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.error-icon {
+  font-size: 3rem;
+  min-width: 3rem;
+  color: var(--error-hard);
+}
+.max-size-img-error strong{
+  color: var(--error-hard);
+}
+
+/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[3]!./app/styles/mainScreen.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************/
+.main {
+  height: 100vh;
+  display: flex;
+  min-width: 1024px;
+  min-height: 512px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.main-screen {
+  position: relative;
+  background-color: var(--primary-dark);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 2;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 6px;
+}
+.main-sec {
+  background-color: var(--white);
+  height: 100%;
+  margin-left: 82px;
+  border-radius: 22px;
+}
+.right-sec {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-left: 6px;
+  height: 100%;
+}
+.secondary-sec {
+  background-color: var(--white);
+  border-radius: 22px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.third-sec {
+  background-color: var(--secondary-soft);
+  border-radius: 22px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.logout-icon {
+  font-size: 22px;
+  color: var(--log-out);
+}
+.side-icon{
+  font-size: 22px;
+}
+.side-Btn{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.side-Btn:hover{
+  color: var(--primary-hard);
+  border-radius: 10px;
+}
+.main-screen button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  color: var(--text-gray);
+  font-weight: 500;
+  background-color: transparent;
+  border: none;
+}
+.logout-Btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 28px;
+}
+.logout-Btn:hover{
+  color: var(--log-out) !important;
+}
+.sidebar-icons {
+  position: absolute;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: inherit;
+  width: 50px;
+}
+.icons-section{
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.profile{
+  margin-top: 10px;
+  height: 50px;
+  width: 50px;
+  align-self: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.profile img{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: scale-down;
+  background-color: white;
+}
+
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[3]!./app/styles/dashboard.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+.dashboard-main {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.friend-list {
+  display: flex;
+}
+.friendList-main {
+  width: 100%;
+  overflow-y: auto;
+}
+.chat-sec {
+  display: flex;
+  height: 100%;
+}
+/* ---------- Search Bar ------------- */
+.search-main {
+  position: relative;
+  display: flex;
+  width: 100%;
+  padding: 16px 20px 5px 20px;
+  align-items: center;
+}
+.search-bar {
+  background-color: var(--secondary-soft);
+  flex-grow: 1;
+  padding: 10px 5px 10px 28px;
+  border: none;
+  border-radius: 12px;
+}
+.search-bar::placeholder {
+  color: rgb(36, 36, 36);
+}
+.search-icon {
+  position: absolute;
+  font-size: large;
+  left: 26px;
+}
+/* ---------- Subject ------------- */
+.subject-main {
+  margin: 10px 10px;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+}
+.subject-main:hover {
+  background-color: var(--bg-light-prim);
+  cursor: pointer;
+}
+.subject-info {
+  display: flex;
+}
+.subject-img {
+  background-color: black;
+  border: none;
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+  margin-right: 8px;
+}
+.mssg-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-around;
+}
+.mssg-info label {
+  font-weight: 600;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+.bottom {
+  display: flex;
+  justify-content: space-between;
+}
+.notification-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  color: rgb(245, 245, 245);
+  font-size: small;
+  border-radius: 20px;
+  padding: 0px 3px;
+  min-width: 18px;
+  height: 18px;
+}
+.last-messege {
+  color: var(--text-gray);
+  text-wrap: nowrap;
+}
+.lastseen {
+  color: var(--text-gray);
+}
+/*---------------- Chat window --------------- */
+.chat-main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 14px;
+}
+.chat-header {
+  height: 14%;
+  padding: 10px 0px 5px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.chat-header label {
+  font-size: xx-large;
+  font-weight: 600;
+  text-wrap: nowrap;
+}
+.chat-header p {
+  color: var(--text-gray);
+}
+.header-icons {
+  color: var(--text-gray);
+  font-size: x-large;
+  display: flex;
+  gap: 16px;
+  padding-right: 10px;
+}
+.chat-console {
+  background-color: aqua;
+  height: 100%;
+}
+.chat-input {
+  height: 12%;
+  align-items: center;
+  padding: 0px 20px;
+}
+.input-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: rgba(26, 26, 26, 0.6);
+}
+.chat-input input {
+  background-color: rgba(169, 153, 173, 0.226);
+  width: 100%;
+  padding: 18px 100px 18px 52px;
+  border: none;
+  border-radius: 10px;
+}
+.clip-icon {
+  cursor: pointer;
+  position: absolute;
+  font-size: x-large;
+  left: 16px;
+}
+.mic-icon {
+  cursor: pointer;
+  position: absolute;
+  font-size: x-large;
+  right: 60px;
+}
+.send-icon {
+  cursor: pointer;
+  position: absolute;
+  font-size: x-large;
+  right: 15px;
+}
+
+/*!*********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[3]!./app/styles/register.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************/
+/* ----------------- Register ------------------ */
+.register-main {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.register-card {
+  color: var(--primary-dark);
+  position: absolute;
+  width: 58rem;
+  height: 38rem;
+  background-color: var(--white);
+  border-radius: 10px;
+  display: flex;
+  z-index: 2;
+}
+.register-card DarkModeBtn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.register-form {
+  width: 50%;
+}
+/* ----------------- Dark Mode Theme ------------------ */
+[data-theme="dark"] {
+  background-color: var(--primary-dark);
+  color: white;
+}
+/* ----------------- Register Image ------------------ */
+.register-image {
+  padding-top: 36px;
+  width: 50%;
+  border-radius: 16px;
+  margin: 36px;
+}
+/* ----------------- Log In ------------------ */
+.login {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-form {
+  width: 28rem;
+  height: 36rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 36px;
+  gap: 20px;
+}
+.login-form input {
+  width: 100%;
+  height: 3rem;
+  gap: 5px;
+  border-radius: 26px;
+  border: none;
+}
+.input {
+  padding-left: 16px;
+  padding-right: 10px;
+  background-color: var(--input-color);
+}
+.input::placeholder {
+  color: rgb(134, 134, 134);
+}
+.login-Btn {
+  cursor: pointer;
+  color: white;
+  background-color: var(--Dark-theme-Btn);
+  font-weight: 600;
+  font-size: large;
+}
+/* ----------------- Login With ------------------ */
+.loginwith {
+  display: flex;
+  justify-content: space-between;
+}
+.loginwith button {
+  width: 122px;
+  padding: 12px 0px;
+  font-weight: 600;
+  font-size: large;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+}
+.signUp-Btn {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: large;
+}
+/* ----------------- Glass BG ------------------ */
+.glass {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  transform: translate(-50%, -50%);
+  height: 39rem;
+  width: 59rem;
+  background-color: rgba(231, 231, 231, 0.226);
+  border: 1px solid rgba(235, 235, 235, 0.6);
+  border-radius: 16px;
+}
+/* ----------------- Dark Mode Button ------------------ */
+.darkmodeBtn {
+  position: absolute;
+  right: 20px;
+  top: 4px;
+  overflow: hidden;
+  z-index: 10;
+}
+.darkmodeBtn label {
+  position: relative;
+  width: 50px;
+  height: 20px;
+  display: block;
+  background: #ebebeb;
+  border-radius: 20px;
+  box-shadow: inset 0px 0.5px 1.5px rgba(0, 0, 0, 0.4),
+    inset 0px -0.5px 1.5px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: 0.3s;
+}
+.darkmodeBtn label::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  background: linear-gradient(180deg, #ffcc89, #d8860b);
+  border-radius: 18px;
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.4);
+  transition: 0.3s;
+}
+.darkmodeBtn input {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+.darkmodeBtn input:checked + label {
+  background: #242424;
+}
+.darkmodeBtn input:checked + label::after {
+  left: 49px;
+  transform: translateX(-100%);
+  background: linear-gradient(180deg, #777, #3a3a3a);
+}
+.darkmodeBtn label:active:after {
+  width: 26px;
+}
+.darkmodeBtn label svg {
+  position: absolute;
+  width: 12px;
+  top: 4px;
+  z-index: 100;
+}
+.darkmodeBtn label svg.sun {
+  left: 4px;
+  fill: white;
+  transition: 0.3s;
+}
+.darkmodeBtn label svg.moon {
+  left: 34px;
+  fill: #7e7e7e;
+  transition: 0.3s;
+}
+.darkmodeBtn input:checked + label svg.sun {
+  fill: #7e7e7e;
+}
+.darkmodeBtn input:checked + label svg.moon {
+  fill: #fff;
+}
+/* ----------------- User Info ------------------ */
+.userInfo-main {
+  height: 100%;
+  width: 100%;
+}
+.userInfo-form {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0px 80px 0px 0px;
+  gap: 10px;
+}
+.userInfo-form label {
+  font-weight: 600;
+}
+.info-input-s {
+  background-color: var(--input-color);
+  padding: 10px 16px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 26px;
+  width: 100%;
+}
+.userInfo-form button {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 12px 16px;
+  margin-top: 22px;
+  border: none;
+  border-radius: 26px;
+  width: 100%;
+}
+.upload-pp-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 70%;
+  height: 100%;
+  padding: 0px 30px 80px 80px;
+}
+.upload-pp {
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 360px;
+  height: 360px;
+}
+.image-preview{
+  background-color: white;
+}
+.remove-Btn {
+  padding: 10px 20px;
+  margin-top: 30px;
+  border: none;
+  border-radius: 10px;
+  background-color: #5f021f;
+  color: rgb(134, 134, 134);
+}
+[is-active="true"] {
+  cursor: pointer;
+  background-color: var(--remove-Btn);
+  color: var(--white);
+}
+.upload-pp img {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  object-fit: scale-down;
+}
+.upload-pp-container input {
+  display: none;
+}
+
+/*!*******************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[3]!./app/styles/scenes.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************/
+.add-friend-main {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: 20;
+}
+.overlay {
+  background-color: rgba(19, 19, 19, 0.747);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  width: inherit;
+  height: inherit;
+}
+.add-friend-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+  width: 70%;
+  background-color: var(--white);
+  border-radius: 20px;
+}
+.add-friend-card label{
+  font-weight: 700;
+  font-size: x-large;
+}
+.add-friend-container {
+  position: relative;
+  background-color: var(--primary-soft);
+  padding: 20px 50px;
+  width: 95%;
+  height: 90%;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.add-friend-container input{
+  display: flex;
+  width: 100%;
+  padding: 16px;
+  border-radius: 10px;
+  font-size: large;
+}
+.input-container button{
+  position: absolute;
+  font-size: large;
+  right: 6px;
+  background-color: var(--primary-hard);
+  color: white;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+.input-container button:hover{
+  background-color: rgba(60, 0, 128, 0.8);
+}
+.add-friend-container .cancel-Btn {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  background-color: rgb(255, 5, 5);
+  width: 100px;
+  font-size: large;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+/* --------------- Create New Contact ------------*/
+.create-contact-card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+  width: 70%;
+  background-color: var(--white);
+  border-radius: 20px;
+}
+/* --------------- Profile ------------*/
+.profile-settings-sec{
+  background-color: var(--secondary-soft);
+  margin-left: 6px;
+  border-radius: 22px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+

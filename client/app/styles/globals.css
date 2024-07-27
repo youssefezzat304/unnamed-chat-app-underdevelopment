@@ -1,0 +1,58 @@
+:root {
+  --primary-soft: #9f97e4;
+  --primary-hard: #7678ed;
+  --primary-dark: #202022;
+
+  --secondary-soft: #c7c3fc;
+
+  --input-color: #d2cdffcc;
+  --Dark-theme-Btn: #2e334a;
+
+  --log-out: #f25c54;
+
+  --error-soft: #ef7674;
+  --error-hard: #902923;
+
+  --remove-Btn:#f02d3a;
+
+  --text-gray:#6c757d;
+
+  --white: #f9fafc;
+}
+body {
+  overflow-y: hidden;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.bg {
+  position: absolute;
+  z-index: -10;
+  min-height: 100vh;
+}
+/* --------------------------- ERRORS --------------------------------------- */
+.max-size-img-error{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--error-soft);
+  position: absolute;
+  z-index: 10;
+  bottom: -5px;
+  left: 50px;
+  min-width: 25rem;
+  max-width: 32rem;
+  border-radius: 20px;
+  padding: 1.5rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.error-icon {
+  font-size: 3rem;
+  min-width: 3rem;
+  color: var(--error-hard);
+}
+.max-size-img-error strong{
+  color: var(--error-hard);
+}
