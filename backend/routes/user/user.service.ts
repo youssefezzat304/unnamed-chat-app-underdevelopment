@@ -4,6 +4,8 @@ import {
   HttpStatusCode,
 } from "../../utils/exceptions/baseError.exception";
 import { ValidationError } from "../../utils/exceptions/validationError.exception";
+import { Tokens } from "../../utils/interfaces/token.interface";
+import token from "../../utils/token";
 import UserModel from "./user.model";
 
 class UserService {
@@ -12,10 +14,22 @@ class UserService {
   public async signUp(
     email: string,
     password: string
-  ): Promise<string | Error> {
+  ): Promise<Tokens | Error | any> {
     try {
       const user = await this.user.create({ email, password });
-      return `User Created Successfully: ${user}`;
+
+      const accessToken = token.createToken(
+        user,
+        process.env.JWT_ACCESS_SECRET,
+        "30s"
+      );
+      const refreshToken = token.createToken(
+        user,
+        process.env.JWT_REFRESH_SECRET,
+        "1d"
+      );
+      
+      return {accessToken, refreshToken};
     } catch (error) {
       throw new ValidationError(
         ErrorTitle.EMAIL_USED,
@@ -39,7 +53,7 @@ class UserService {
     }
 
     if (await user.isValidPassword(password)) {
-      return "Login Successful.";
+      return token.createToken(user, process.env.JWT_ACCESS_SECRET, "5m");
     } else {
       throw new ValidationError(
         ErrorTitle.WRONG_PASS,

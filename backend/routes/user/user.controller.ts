@@ -8,6 +8,9 @@ import {
   ErrorTitle,
   HttpStatusCode,
 } from "../../utils/exceptions/baseError.exception";
+import { authenticatedMiddleware } from "../../middlewares/authenticated.middleware";
+import { Tokens } from "../../utils/interfaces/token.interface";
+import { CreateUserInput } from "./user.interface";
 
 class UserController implements Controller {
   public path = "/users";
@@ -27,12 +30,14 @@ class UserController implements Controller {
     this.router.post(
       `${this.path}/login`,
       validationMiddleware(validate.logIn),
+      authenticatedMiddleware,
       this.logIn
     );
+    this.router.get(`${this.path}`, authenticatedMiddleware, this.getUser);
   }
 
   private register = async (
-    req: Request,
+    req: Request<{}, {}, CreateUserInput>,
     res: Response,
     next: NextFunction
   ): Promise<Response | void | ValidationError> => {
@@ -48,8 +53,14 @@ class UserController implements Controller {
       );
     }
     try {
-      const newUser = await this.userService.signUp(email, password);
-      res.status(201).send({ newUser });
+      const tokens = await this.userService.signUp(email, password);
+      const { accessToken, refreshToken } = tokens;
+
+      res.cookie("accessToken", refreshToken, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+      res.status(201).send({ accessToken });
     } catch (error) {
       next(error);
     }
@@ -63,12 +74,20 @@ class UserController implements Controller {
     try {
       const { email, password } = req.body;
 
-      const checkLogin = await this.userService.login(email, password);
+      const token = await this.userService.login(email, password);
       const status = 200;
-      return res.status(200).send({ status, checkLogin });
+      return res.status(200).send({ status, token });
     } catch (error) {
       next(error);
     }
+  };
+
+  private getUser = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Response | void => {
+    return res.status(200).send("Yaaaaaaaaaaay");
   };
 }
 

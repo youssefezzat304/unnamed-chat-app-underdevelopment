@@ -8,7 +8,7 @@ import {
 } from "react";
 import UserContextType from "../utils/interfaces";
 import {
-  initState,
+  loginInitState,
   loginReducerFunction,
   USER_LOGIN_ACTION_TYPE,
 } from "../utils/loginReducer";
@@ -27,43 +27,68 @@ export function UserContextWrapper({
   children: React.ReactNode;
 }) {
   //------------------------ Login ----------------------------------------------------//
-  const [state, dispatch] = useReducer(loginReducerFunction, initState);
+  const [loginState, loginDispatch] = useReducer(
+    loginReducerFunction,
+    loginInitState
+  );
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: USER_LOGIN_ACTION_TYPE.EMAIL, payload: e.target.value });
+    loginDispatch({ type: USER_LOGIN_ACTION_TYPE.EMAIL, payload: e.target.value });
   };
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch({
+    loginDispatch({
       type: USER_LOGIN_ACTION_TYPE.PASSWORD,
       payload: e.target.value,
     });
   };
   const logInResAction = (res: ResponseType) => {
-    if (res.status === 500) {
-      if (res.status === 500) {
-        dispatch({
+    switch (res.title) {
+      case "wrong email": {
+        loginDispatch({
           type: USER_LOGIN_ACTION_TYPE.ERROR,
-          payload: res.message,
+          payload:
+            "Unable to find a User with this Email address or User does not exist.",
         });
+        break;
       }
+      case "wrong password": {
+        loginDispatch({
+          type: USER_LOGIN_ACTION_TYPE.ERROR,
+          payload: "Wrong password!!",
+        });
+        break;
+      }
+      case "Error": {
+        loginDispatch({
+          type: USER_LOGIN_ACTION_TYPE.ERROR,
+          payload: "Something went wrong",
+        });
+        break;
+      }
+      default:
+        break
     }
   };
   const handleLogin = async (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    loginDispatch({
+      type: USER_LOGIN_ACTION_TYPE.NOERROR,
+    });
     const loginURL = process.env.NEXT_PUBLIC_API_LOGIN;
     const req = async (url: string): Promise<ResponseType> => {
       const data = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: state.email,
-          password: state.password,
+          email: loginState.email,
+          password: loginState.password,
         }),
       });
       return data.json();
     };
 
     req(loginURL!).then((res) => {
+      console.log(res);
       logInResAction(res);
     });
   };
@@ -91,15 +116,39 @@ export function UserContextWrapper({
     });
   };
   const signUpResAction = (res: ResponseType) => {
-    if (res.status === 500) {
-      signupDispatch({
-        type: USER_SIGNUP_ACTION_TYPE.ERROR,
-        payload: res.message,
-      });
+    switch (res.title) {
+      case "email used": {
+        signupDispatch({
+          type: USER_SIGNUP_ACTION_TYPE.ERROR,
+          payload: "This email already used.",
+        });
+        break;
+      }
+      case "Error": {
+        signupDispatch({
+          type: USER_SIGNUP_ACTION_TYPE.ERROR,
+          payload: "Something went wrong",
+        });
+        break;
+      }
+      default:
+        break
     }
   };
   const handleSignUp = async (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    signupDispatch({
+      type: USER_SIGNUP_ACTION_TYPE.NOERROR,
+    });
+
+    if (signupState.password !== signupState.confirmPassword) {
+      loginDispatch({
+        type: USER_LOGIN_ACTION_TYPE.ERROR,
+        payload:
+          "The passwords you entered do not match. Please ensure that both the 'Password' and 'Confirm Password' fields contain the same password and try again.",
+      });
+      return;
+    }
     const signupURL = process.env.NEXT_PUBLIC_API_SIGNUP;
     const req = async (url: string): Promise<ResponseType> => {
       const data = await fetch(url, {
@@ -108,6 +157,7 @@ export function UserContextWrapper({
         body: JSON.stringify({
           email: signupState.email,
           password: signupState.password,
+          confirmPassword: signupState.confirmPassword,
         }),
       });
       return data.json();
@@ -123,12 +173,14 @@ export function UserContextWrapper({
         handleLogin,
         handleEmailChange,
         handlePasswordChange,
-        state,
+        loginState,
         handleSignEmail,
         handleSignPassword,
         handleSignConfirmPass,
         signupState,
         handleSignUp,
+        loginDispatch,
+        signupDispatch,
       }}
     >
       {children}

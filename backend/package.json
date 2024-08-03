@@ -28,9 +28,11 @@
     "nodemon": "^3.1.4",
     "pino": "^9.3.1",
     "pino-pretty": "^11.2.1",
-    "socket.io": "^4.7.5"
+    "socket.io": "^4.7.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@typegoose/typegoose": "^12.6.0",
     "@types/bcrypt": "^5.0.2",
     "@types/compression": "^1.7.5",
     "@types/config": "^3.3.4",

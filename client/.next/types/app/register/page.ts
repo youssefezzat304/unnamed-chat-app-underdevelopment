@@ -1,4 +1,4 @@
-// File: D:\Web Dev projects\web-chat\client\app\register\page.tsx
+// File: D:\Web Dev projects\1,MainChat\client\app\register\page.tsx
 import * as entry from '../../../../app/register/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

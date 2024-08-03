@@ -19,7 +19,7 @@ export const enum USER_SIGNUP_ACTION_TYPE {
   NOERROR,
   CONFIRMPASS,
 }
-interface SignUpReducerType {
+export interface SignUpReducerType {
   type: USER_SIGNUP_ACTION_TYPE;
   payload?: string;
 }
@@ -46,8 +46,14 @@ export const signUpReducerFunction = (
     case USER_SIGNUP_ACTION_TYPE.ERROR:
       return {
         ...signupState,
-        error: !signupState.error,
-        errorMessage: action.payload ?? "",
+        error: true,
+        errorMessage: action.payload ?? "Error!!!",
+      };
+    case USER_SIGNUP_ACTION_TYPE.NOERROR:
+      return {
+        ...signupState,
+        error: false,
+        errorMessage:"",
       };
     default:
       throw new Error();

@@ -4,18 +4,19 @@ export interface InitUserState {
   error: boolean;
   errorMessage: string;
 }
-export const initState = {
+export const loginInitState = {
   email: "",
   password: "",
   error: false,
   errorMessage: "",
-}
+};
 export const enum USER_LOGIN_ACTION_TYPE {
   EMAIL,
   PASSWORD,
   ERROR,
+  NOERROR
 }
-interface UserReducerType {
+export interface UserReducerType {
   type: USER_LOGIN_ACTION_TYPE;
   payload?: string;
 }
@@ -26,7 +27,9 @@ export const loginReducerFunction = (
 ): InitUserState => {
   switch (action.type) {   
     case USER_LOGIN_ACTION_TYPE.ERROR:
-      return { ...state, error: !state.error, errorMessage: action.payload ?? "" };
+      return { ...state, error: true, errorMessage: action.payload ?? "Error!!!" };
+    case USER_LOGIN_ACTION_TYPE.NOERROR:
+      return { ...state, error: false, errorMessage: "" };
     case USER_LOGIN_ACTION_TYPE.EMAIL:
       return { ...state, error: false, email: action.payload ?? "" };
     case USER_LOGIN_ACTION_TYPE.PASSWORD:

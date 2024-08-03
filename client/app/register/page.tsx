@@ -1,6 +1,6 @@
 "use client";
 //----------- React/Next ----------------------------------------------------------------//
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //----------- Contexts ----------------------------------------------------------------//
 import { useThemeContext } from "../contexts/ThemeContext";
 //----------- SVGs ----------------------------------------------------------------//
@@ -14,21 +14,30 @@ import SignUp from "./SignUp";
 import DarkModeBtn from "../components/buttons/DarkModeBtn";
 import { useUserContext } from "../contexts/UserContext";
 import { BiMessageSquareError } from "react-icons/bi";
+import { USER_LOGIN_ACTION_TYPE } from "../utils/loginReducer";
 
 const Register = () => {
   const { theme, setTheme } = useThemeContext(),
-    { state, signupState } = useUserContext(),
+    { loginState, signupState, loginDispatch} =
+      useUserContext(),
     [loginScreen, setLoginScreen] = useState(true);
 
   const signUp = () => {
+    loginDispatch({
+      type: USER_LOGIN_ACTION_TYPE.NOERROR,
+    });
     setLoginScreen(false);
   };
   const logIn = () => {
+    loginDispatch({
+      type: USER_LOGIN_ACTION_TYPE.NOERROR,
+    });
     setLoginScreen(true);
   };
   const toggleDarkMode = () => {
     setTheme(!theme);
   };
+  
   return (
     <main className="register-main">
       <div className="register-card" data-theme={theme && "dark"}>
@@ -42,10 +51,10 @@ const Register = () => {
       </div>
       <div className="glass"></div>
       {theme ? <BlackBg className="bg" /> : <LightBg className="bg" />}
-      {state?.error && (
+      {loginState?.error && (
         <div className="max-size-img-error">
           <BiMessageSquareError className="error-icon" />
-          <strong className="">{state.errorMessage}</strong>
+          <strong className="">{loginState.errorMessage}</strong>
         </div>
       )}
       {signupState?.error && (
