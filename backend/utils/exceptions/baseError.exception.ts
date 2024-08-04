@@ -8,13 +8,15 @@ export enum ErrorTitle {
   ERROR = "Error",
   WRONG_PASS = "wrong password",
   WRONG_EMAIL = "wrong email",
-  EMAIL_USED = "email used"
+  EMAIL_USED = "email used",
+  NO_MATCHED_PASS = "not matched pass"
 }
 export enum ErrorMessage {
   ERROR = "Something went wrong",
   WRONG_PASS = "Wrong password!!",
   WRONG_EMAIL = "Unable to find a User with this Email address or User does not exist.",
   EMAIL_USED = "This email already used.",
+  NO_MATCHED_PASS = "The passwords do not match. Please ensure that the 'Password' and 'Confirm Password' fields are identical.",
 }
 export abstract class BaseError extends Error {
   public readonly title: ErrorTitle | string;

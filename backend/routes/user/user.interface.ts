@@ -1,11 +1,11 @@
 import { Document } from "mongoose";
-import { object, string, TypeOf } from "zod";
-
-// export default interface User extends Document {
-//   email: string;
-//   password: string;
-//   isValidPassword(password: string): Promise<boolean | Error>;
-// }
+import { object, string, number, TypeOf, boolean, ZodIssueCode } from "zod";
+import { ValidationError } from "../../utils/exceptions/validationError.exception";
+import {
+  ErrorMessage,
+  ErrorTitle,
+  HttpStatusCode,
+} from "../../utils/exceptions/baseError.exception";
 
 export const createUserSchema = object({
   body: object({
@@ -19,9 +19,9 @@ export const createUserSchema = object({
       required_error: "Password confirmation is required,",
     }),
   }).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match.",
+    message: ErrorMessage.NO_MATCHED_PASS,
     path: ["confirmPassword"],
   }),
 });
 
-export type CreateUserInput = TypeOf<typeof createUserSchema>["body"]
+export type CreateUserInput = TypeOf<typeof createUserSchema>["body"];

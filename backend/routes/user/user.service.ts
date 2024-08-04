@@ -4,39 +4,16 @@ import {
   HttpStatusCode,
 } from "../../utils/exceptions/baseError.exception";
 import { ValidationError } from "../../utils/exceptions/validationError.exception";
-import { Tokens } from "../../utils/interfaces/token.interface";
-import token from "../../utils/token";
-import UserModel from "./user.model";
+import UserModel, { User } from "./user.model";
 
 class UserService {
   private user = UserModel;
   // -------------------  Signup a New User  ----------------------------//
   public async signUp(
-    email: string,
-    password: string
-  ): Promise<Tokens | Error | any> {
-    try {
-      const user = await this.user.create({ email, password });
+    input: Partial<User>
+  ): Promise<Error | any> {
+    return UserModel.create(input)
 
-      const accessToken = token.createToken(
-        user,
-        process.env.JWT_ACCESS_SECRET,
-        "30s"
-      );
-      const refreshToken = token.createToken(
-        user,
-        process.env.JWT_REFRESH_SECRET,
-        "1d"
-      );
-      
-      return {accessToken, refreshToken};
-    } catch (error) {
-      throw new ValidationError(
-        ErrorTitle.EMAIL_USED,
-        HttpStatusCode.INTERNAL_SERVER,
-        ErrorMessage.EMAIL_USED
-      );
-    }
   }
   // -------------------  Attempt to Login User  ----------------------------//
   public async login(
@@ -52,9 +29,9 @@ class UserService {
       );
     }
 
-    if (await user.isValidPassword(password)) {
-      return token.createToken(user, process.env.JWT_ACCESS_SECRET, "5m");
-    } else {
+    try {
+      return "login successfully"
+    } catch (error) {
       throw new ValidationError(
         ErrorTitle.WRONG_PASS,
         HttpStatusCode.INTERNAL_SERVER,
