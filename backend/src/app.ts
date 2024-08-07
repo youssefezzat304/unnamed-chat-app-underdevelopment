@@ -9,6 +9,11 @@ import cookieParser from "cookie-parser";
 import { erroMiddleware } from "../middlewares/errorHandler.middleware";
 import deserializeUser from "../middlewares/deserializeUser.middleware";
 
+const corsOptions = {
+  origin: "http://localhost:8080",
+  credentials: true,
+};
+
 class App {
   public express: Application;
   public port: number;
@@ -26,7 +31,7 @@ class App {
   private initialiseMiddleware(): void {
     this.express.use(express.json());
     this.express.use(cookieParser());
-    this.express.use(cors());
+    this.express.use(cors(corsOptions));
     this.express.use(helmet());
     this.express.use(compression());
     this.express.use(morgan("dev"));

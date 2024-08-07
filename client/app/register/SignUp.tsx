@@ -1,18 +1,12 @@
-"use client"
+"use client";
 
 import { useUserContext } from "../contexts/UserContext";
 
 const SignUp = ({ logIn }: any) => {
-  const {
-    handleSignEmail,
-    handleSignPassword,
-    handleSignConfirmPass,
-    handleSignUp,
-    signupState,
-  } = useUserContext();
+  const {handleSignupSubmit, signupRegister, handleSignup} = useUserContext();
   return (
     <div className="login">
-      <form className="login-form" onSubmit={handleSignUp}>
+      <form className="login-form" onSubmit={handleSignupSubmit(handleSignup)}>
         <h1>
           Hello,<br></br> Nice to meet you
         </h1>
@@ -20,31 +14,22 @@ const SignUp = ({ logIn }: any) => {
           className="input"
           type="email"
           title="Email"
-          name="email"
           placeholder="Enter your E-mail."
-          value={signupState.email}
-          onChange={handleSignEmail}
-          required
+          {...signupRegister("email")}
         />
         <input
           className="input"
           type="password"
           title="Password"
-          name="password"
           placeholder="Enter your Password."
-          value={signupState.password}
-          onChange={handleSignPassword}
-          required
+          {...signupRegister("password")}
         />
         <input
           className="input"
           type="password"
-          title="Password confirm"
-          name="confirmPassword"
+          title="Password confirmation"
           placeholder="Confrim your password"
-          value={signupState.confirmPassword}
-          onChange={handleSignConfirmPass}
-          required
+          {...signupRegister("confirmPassword")}
         />
         <input
           className="signUp-Btn"
