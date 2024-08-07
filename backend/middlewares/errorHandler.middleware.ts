@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { BaseError, ErrorMessage, ErrorTitle, HttpStatusCode } from "../utils/exceptions/baseError.exception";
+import { BaseError, ErrorTitle, HttpStatusCode } from "../utils/exceptions/baseError.exception";
 
 export function erroMiddleware(
   error: BaseError,

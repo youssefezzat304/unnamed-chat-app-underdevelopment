@@ -13,7 +13,6 @@ class UserService {
     input: Partial<User>
   ): Promise<Error | any> {
     return UserModel.create(input)
-
   }
   // -------------------  Attempt to Login User  ----------------------------//
   public async login(
@@ -39,8 +38,6 @@ class UserService {
       );
     }
   }
-
-
 }
 export function createUser(input: Partial<User>) {
   return UserModel.create(input);
