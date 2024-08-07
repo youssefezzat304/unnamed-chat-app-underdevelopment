@@ -1,21 +1,24 @@
 import { NextFunction, Request, Response, Router } from "express";
 import Controller from "../../utils/interfaces/controller.interface";
-import UserService from "./user.service";
-import validationMiddleware from "../../middlewares/validation.middleware";
-import validate from "./user.validation";
+import UserService, { findUserByEmail } from "./user.service";
 import { ValidationError } from "../../utils/exceptions/validationError.exception";
 import {
   ErrorMessage,
   ErrorTitle,
   HttpStatusCode,
 } from "../../utils/exceptions/baseError.exception";
-import { CreateUserInput, createUserSchema } from "./user.interface";
+import { CreateUserInput, createUserSchema } from "./user.schema";
 import { validateResourceMidlleware } from "../../middlewares/validateResource.middleware";
+import { requireUserMiddleware } from "../../middlewares/requireUser.middleware";
+import { CreateSessionInput } from "../auth/auth.schema";
+import AuthService from "../auth/auth.service";
+import { verifyJwt } from "../../utils/jwt";
 
 class UserController implements Controller {
   public path = "/users";
   public router = Router();
   private userService = new UserService();
+  private auth = new AuthService();
 
   constructor() {
     this.initialseRoutes();
@@ -27,12 +30,12 @@ class UserController implements Controller {
       validateResourceMidlleware(createUserSchema),
       this.register
     );
-    this.router.post(
-      `${this.path}/login`,
-      validationMiddleware(validate.logIn),
-      this.logIn
+    this.router.post(`${this.path}/login`, this.logIn);
+    this.router.get(
+      `${this.path}/me`,
+      requireUserMiddleware,
+      this.getCurrentUser
     );
-    this.router.get(`${this.path}`, this.getUser);
   }
 
   private register = async (
@@ -45,7 +48,7 @@ class UserController implements Controller {
     try {
       const user = await this.userService.signUp(body);
 
-      return res.send("User successfully created.");
+      return res.send(user);
     } catch (error: any) {
       if (error.code === 11000) {
         next(
@@ -67,28 +70,47 @@ class UserController implements Controller {
   };
 
   private logIn = async (
-    req: Request,
+    req: Request<{}, {}, CreateSessionInput>,
     res: Response,
     next: NextFunction
   ): Promise<Response | void> => {
-    return;
-    // try {
-    //   const { email, password } = req.body;
+    const message = "Invalid Email or password.";
+    const { email, password } = req.body;
 
-    //   const token = await this.userService.login();
-    //   const status = 200;
-    //   return res.status(200).send({ status, token });
-    // } catch (error) {
-    //   next(error);
-    // }
+    const user = await findUserByEmail(email);
+    if (!user) return res.send(message);
+
+    const isValid = await user.validatePassword(password);
+    if (!isValid) return res.send(message);
+
+    const accessToken = this.auth.signAccessToken(user);
+
+    const refreshToken = await this.auth.signRefreshToken({
+      userID: user._id.toString(),
+    });
+
+    const userInfo = verifyJwt(accessToken, "accessTokenPublicKey");
+
+    if (userInfo) res.locals.user = userInfo;
+    res
+      .cookie("accessToken", "Bearer " + accessToken, {
+        expires: new Date(Date.now() + 900000),
+        httpOnly: true,
+      })
+      .cookie("refreshToken", refreshToken, {
+        expires: new Date(Date.now() + 900000),
+        httpOnly: true,
+      });
+
+    return res.send({ userInfo });
   };
 
-  private getUser = (
+  private getCurrentUser = async (
     req: Request,
     res: Response,
     next: NextFunction
-  ): Response | void => {
-    return res.status(200).send("Yaaaaaaaaaaay");
+  ) => {
+    return res.send(res.locals.user);
   };
 }
 

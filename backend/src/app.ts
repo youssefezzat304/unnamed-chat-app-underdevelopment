@@ -5,7 +5,9 @@ import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 import { erroMiddleware } from "../middlewares/errorHandler.middleware";
+import deserializeUser from "../middlewares/deserializeUser.middleware";
 
 class App {
   public express: Application;
@@ -23,10 +25,12 @@ class App {
 
   private initialiseMiddleware(): void {
     this.express.use(express.json());
+    this.express.use(cookieParser());
     this.express.use(cors());
     this.express.use(helmet());
     this.express.use(compression());
     this.express.use(morgan("dev"));
+    this.express.use(deserializeUser);
   }
   private initialiseDatabaseConnection(): void {
     mongoose
@@ -38,9 +42,9 @@ class App {
       this.express.use("/api", controller.router);
     });
   }
-  private initialiseErrorHandler(): void{
+  private initialiseErrorHandler(): void {
     this.express.use(erroMiddleware);
-  };
+  }
 
   public listen(): void {
     this.express.listen(this.port, () => {

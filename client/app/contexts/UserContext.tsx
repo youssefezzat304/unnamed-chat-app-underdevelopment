@@ -18,6 +18,7 @@ import {
   signUpReducerFunction,
   USER_SIGNUP_ACTION_TYPE,
 } from "../utils/signUpReducer";
+import { useRouter } from "next/navigation";
 
 const UserContext = createContext<UserContextType>({} as UserContextType);
 
@@ -26,6 +27,7 @@ export function UserContextWrapper({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter()
   //------------------------ Login ----------------------------------------------------//
   const [loginState, loginDispatch] = useReducer(
     loginReducerFunction,
@@ -90,6 +92,7 @@ export function UserContextWrapper({
     req(loginURL!).then((res) => {
       console.log(res);
       logInResAction(res);
+      router.replace("/")
     });
   };
   //------------------------ SignUp ----------------------------------------------------//
@@ -163,6 +166,7 @@ export function UserContextWrapper({
       return data.json();
     };
     req(signupURL!).then((res) => {
+      console.log(res)
       signUpResAction(res);
     });
   };

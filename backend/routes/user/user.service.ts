@@ -23,9 +23,9 @@ class UserService {
     const user = await this.user.findOne({ email });
     if (user === null) {
       throw new ValidationError(
-        ErrorTitle.WRONG_EMAIL,
+        ErrorTitle.WRONG_CRED,
         HttpStatusCode.INTERNAL_SERVER,
-        ErrorMessage.WRONG_EMAIL
+        ErrorMessage.WRONG_CRED
       );
     }
 
@@ -33,12 +33,25 @@ class UserService {
       return "login successfully"
     } catch (error) {
       throw new ValidationError(
-        ErrorTitle.WRONG_PASS,
+        ErrorTitle.WRONG_CRED,
         HttpStatusCode.INTERNAL_SERVER,
-        ErrorMessage.WRONG_PASS
+        ErrorMessage.WRONG_CRED
       );
     }
   }
+
+
+}
+export function createUser(input: Partial<User>) {
+  return UserModel.create(input);
+}
+
+export function findUserById(id: string) {
+  return UserModel.findById(id);
+}
+
+export function findUserByEmail(email: string) {
+  return UserModel.findOne({ email });
 }
 
 export default UserService;

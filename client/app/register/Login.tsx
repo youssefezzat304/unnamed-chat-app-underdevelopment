@@ -3,7 +3,7 @@ import { useUserContext } from "../contexts/UserContext";
 
 const Login = ({ signUp }: any) => {
   
-  const { handleLogin, state, handleEmailChange, handlePasswordChange } =
+  const { handleLogin, loginState, handleEmailChange, handlePasswordChange } =
     useUserContext();
   return (
     <div className="login">
@@ -18,7 +18,7 @@ const Login = ({ signUp }: any) => {
             title="Email"
             placeholder="Enter your E-mail."
             name="email"
-            value={state?.email}
+            value={loginState?.email}
             onChange={handleEmailChange}
             required
           />
@@ -30,7 +30,7 @@ const Login = ({ signUp }: any) => {
             title="Password"
             name="password"
             placeholder="Enter your Password."
-            value={state?.password}
+            value={loginState?.password}
             onChange={handlePasswordChange}
             required
           />

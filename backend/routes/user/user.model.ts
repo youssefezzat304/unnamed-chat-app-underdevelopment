@@ -7,6 +7,7 @@ import {
 } from "@typegoose/typegoose";
 import bcrypt from "bcrypt";
 
+export const privateFeilds = ["password", "__v"];
 
 @pre<User>("save", async function () {
   if (!this.isModified("password")) {
@@ -40,31 +41,3 @@ export class User {
 const UserModel = getModelForClass(User);
 
 export default UserModel;
-
-// const UserSchema = new Schema(
-//   {
-//     email: {
-//       type: String,
-//       required: true,
-//       unique: true,
-//       trim: true,
-//     },
-//     password: {
-//       type: String,
-//       required: true,
-//     },
-//     confirmPassword: {
-//       type: String,
-//       required: true,
-//     },
-//   },
-//   { timestamps: true }
-// );
-
-// UserSchema.methods.isValidPassword = async function (
-//   password: string
-// ): Promise<Error | boolean> {
-//   return await bcrypt.compare(password, this.password);
-// };
-
-// export type userModelType = typeof UserSchema;
