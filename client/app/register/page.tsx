@@ -14,22 +14,30 @@ import SignUp from "./SignUp";
 import DarkModeBtn from "../components/buttons/DarkModeBtn";
 import { useUserContext } from "../contexts/UserContext";
 import { BiMessageSquareError } from "react-icons/bi";
+import { USER_LOGIN_ACTION_TYPE } from "../utils/loginReducer";
 
 const Register = () => {
   const { theme, setTheme } = useThemeContext(),
-    { loginErrors, signupErrors } = useUserContext(),
+    { loginState, signupState, loginDispatch} =
+      useUserContext(),
     [loginScreen, setLoginScreen] = useState(true);
 
   const signUp = () => {
+    loginDispatch({
+      type: USER_LOGIN_ACTION_TYPE.NOERROR,
+    });
     setLoginScreen(false);
   };
   const logIn = () => {
+    loginDispatch({
+      type: USER_LOGIN_ACTION_TYPE.NOERROR,
+    });
     setLoginScreen(true);
   };
   const toggleDarkMode = () => {
     setTheme(!theme);
   };
-
+  
   return (
     <main className="register-main">
       <div className="register-card" data-theme={theme && "dark"}>
@@ -43,26 +51,17 @@ const Register = () => {
       </div>
       <div className="glass"></div>
       {theme ? <BlackBg className="bg" /> : <LightBg className="bg" />}
-      {loginErrors.email || loginErrors.password ? (
+      {loginState?.error && (
         <div className="max-size-img-error">
           <BiMessageSquareError className="error-icon" />
-          <strong className="">
-            {loginErrors.email?.message || loginErrors.password?.message}
-          </strong>
+          <strong className="">{loginState.errorMessage}</strong>
         </div>
-      ) : (
-        ""
       )}
-      {signupErrors.email ||
-      signupErrors.password? (
+      {signupState?.error && (
         <div className="max-size-img-error">
           <BiMessageSquareError className="error-icon" />
-          <strong className="">
-            {signupErrors.email?.message || signupErrors.password?.message}
-          </strong>
+          <strong className="">{signupState.errorMessage}</strong>
         </div>
-      ) : (
-        ""
       )}
     </main>
   );

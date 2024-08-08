@@ -1,16 +1,24 @@
 "use client";
-import { createContext, useContext } from "react";
 import {
-  loginValidation,
-  LoginSchema,
-  SignupSchema,
-  signupValidation,
-  UserContextType,
-} from "../utils/interfaces";
+  ChangeEvent,
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
+import UserContextType from "../utils/interfaces";
+import {
+  loginInitState,
+  loginReducerFunction,
+  USER_LOGIN_ACTION_TYPE,
+} from "../utils/loginReducer";
+import { ResponseType } from "../utils/types";
+import {
+  signUpinitState,
+  signUpReducerFunction,
+  USER_SIGNUP_ACTION_TYPE,
+} from "../utils/signUpReducer";
 import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import api from "../api";
 
 const UserContext = createContext<UserContextType>({} as UserContextType);
 
@@ -19,111 +27,164 @@ export function UserContextWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
+  const router = useRouter()
   //------------------------ Login ----------------------------------------------------//
-  const {
-    register: loginRegister,
-    handleSubmit: handleLoginSubmit,
-    setError: setLoginError,
-    formState: { errors: loginErrors },
-  } = useForm<LoginSchema>({ resolver: zodResolver(loginValidation) });
+  const [loginState, loginDispatch] = useReducer(
+    loginReducerFunction,
+    loginInitState
+  );
 
-  const handleLogin: SubmitHandler<LoginSchema> = async (data) => {
-    const userData = {
-      email: data.email,
-      password: data.password,
-    };
-    const login = async () => {
-      try {
-        const response = await api.post("/users/login", userData, {
-          withCredentials: true,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-          },
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    loginDispatch({ type: USER_LOGIN_ACTION_TYPE.EMAIL, payload: e.target.value });
+  };
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    loginDispatch({
+      type: USER_LOGIN_ACTION_TYPE.PASSWORD,
+      payload: e.target.value,
+    });
+  };
+  const logInResAction = (res: ResponseType) => {
+    switch (res.title) {
+      case "wrong email": {
+        loginDispatch({
+          type: USER_LOGIN_ACTION_TYPE.ERROR,
+          payload:
+            "Unable to find a User with this Email address or User does not exist.",
         });
-
-        // // Access the Set-Cookie header from the response
-        // const setCookieHeader = response.headers["set-cookie"];
-
-        // // You can now store the cookie or use it for subsequent requests
-        // console.log("Cookie received:", setCookieHeader);
-
-        if (response.data === "Invalid Email or password.") {
-          setLoginError("email", {
-            message: response.data,
-          });
-        } //else {
-        //   router.replace("/");
-        // }
-        console.log(response);
-      } catch (error: any) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
+        break;
       }
+      case "wrong password": {
+        loginDispatch({
+          type: USER_LOGIN_ACTION_TYPE.ERROR,
+          payload: "Wrong password!!",
+        });
+        break;
+      }
+      case "Error": {
+        loginDispatch({
+          type: USER_LOGIN_ACTION_TYPE.ERROR,
+          payload: "Something went wrong",
+        });
+        break;
+      }
+      default:
+        break
+    }
+  };
+  const handleLogin = async (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    loginDispatch({
+      type: USER_LOGIN_ACTION_TYPE.NOERROR,
+    });
+    const loginURL = process.env.NEXT_PUBLIC_API_LOGIN;
+    const req = async (url: string): Promise<ResponseType> => {
+      const data = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: loginState.email,
+          password: loginState.password,
+        }),
+      });
+      return data.json();
     };
 
-    login();
+    req(loginURL!).then((res) => {
+      console.log(res);
+      logInResAction(res);
+      router.replace("/")
+    });
   };
   //------------------------ SignUp ----------------------------------------------------//
-  const {
-    register: signupRegister,
-    handleSubmit: handleSignupSubmit,
-    setError: setSignupError,
-    formState: { errors: signupErrors },
-  } = useForm<SignupSchema>({ resolver: zodResolver(signupValidation) });
+  const [signupState, signupDispatch] = useReducer(
+    signUpReducerFunction,
+    signUpinitState
+  );
+  const handleSignEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    signupDispatch({
+      type: USER_SIGNUP_ACTION_TYPE.EMAIL,
+      payload: e.target.value,
+    });
+  };
+  const handleSignPassword = (e: ChangeEvent<HTMLInputElement>) => {
+    signupDispatch({
+      type: USER_SIGNUP_ACTION_TYPE.PASSWORD,
+      payload: e.target.value,
+    });
+  };
+  const handleSignConfirmPass = (e: ChangeEvent<HTMLInputElement>) => {
+    signupDispatch({
+      type: USER_SIGNUP_ACTION_TYPE.CONFIRMPASS,
+      payload: e.target.value,
+    });
+  };
+  const signUpResAction = (res: ResponseType) => {
+    switch (res.title) {
+      case "email used": {
+        signupDispatch({
+          type: USER_SIGNUP_ACTION_TYPE.ERROR,
+          payload: "This email already used.",
+        });
+        break;
+      }
+      case "Error": {
+        signupDispatch({
+          type: USER_SIGNUP_ACTION_TYPE.ERROR,
+          payload: "Something went wrong",
+        });
+        break;
+      }
+      default:
+        break
+    }
+  };
+  const handleSignUp = async (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    signupDispatch({
+      type: USER_SIGNUP_ACTION_TYPE.NOERROR,
+    });
 
-  const handleSignup: SubmitHandler<SignupSchema> = async (data) => {
-    if (data.password !== data.confirmPassword) {
-      setSignupError("password", {
-        message:
-          "The passwords do not match. Please ensure that the 'Password' and 'Confirm Password' fields are identical.",
+    if (signupState.password !== signupState.confirmPassword) {
+      loginDispatch({
+        type: USER_LOGIN_ACTION_TYPE.ERROR,
+        payload:
+          "The passwords you entered do not match. Please ensure that both the 'Password' and 'Confirm Password' fields contain the same password and try again.",
       });
       return;
     }
-
-    const userData = {
-      email: data.email,
-      password: data.password,
-      confirmPassword: data.confirmPassword,
+    const signupURL = process.env.NEXT_PUBLIC_API_SIGNUP;
+    const req = async (url: string): Promise<ResponseType> => {
+      const data = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: signupState.email,
+          password: signupState.password,
+          confirmPassword: signupState.confirmPassword,
+        }),
+      });
+      return data.json();
     };
-    console.log(userData);
-    const signup = async () => {
-      try {
-        const response = await api.post("/users/signup", userData, {
-          withCredentials: true,
-        });
-
-        console.log(response);
-      } catch (error: any) {
-        if (error.response.data.title === "email used") {
-          setSignupError("email", {
-            message: error.response.data.message,
-          });
-        }
-        console.log("data    >>>>>", error.response.data);
-        console.log("status  >>>>>", error.response.status);
-        console.log("headers >>>>>", error.response.headers);
-      }
-    };
-
-    signup();
+    req(signupURL!).then((res) => {
+      console.log(res)
+      signUpResAction(res);
+    });
   };
   // ============================================================================================ //
   return (
     <UserContext.Provider
       value={{
-        loginRegister,
         handleLogin,
-        handleLoginSubmit,
-        loginErrors,
-        setLoginError,
-        handleSignup,
-        signupRegister,
-        handleSignupSubmit,
-        setSignupError,
-        signupErrors,
+        handleEmailChange,
+        handlePasswordChange,
+        loginState,
+        handleSignEmail,
+        handleSignPassword,
+        handleSignConfirmPass,
+        signupState,
+        handleSignUp,
+        loginDispatch,
+        signupDispatch,
       }}
     >
       {children}

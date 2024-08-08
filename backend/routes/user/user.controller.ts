@@ -94,11 +94,11 @@ class UserController implements Controller {
     if (userInfo) res.locals.user = userInfo;
     res
       .cookie("accessToken", "Bearer " + accessToken, {
-        maxAge: 900000,
+        expires: new Date(Date.now() + 900000),
         httpOnly: true,
       })
       .cookie("refreshToken", refreshToken, {
-        maxAge: 86400000,
+        expires: new Date(Date.now() + 900000),
         httpOnly: true,
       });
 

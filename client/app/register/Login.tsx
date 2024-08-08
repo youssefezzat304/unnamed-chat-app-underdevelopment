@@ -3,10 +3,11 @@ import { useUserContext } from "../contexts/UserContext";
 
 const Login = ({ signUp }: any) => {
   
-  const { loginRegister, handleLogin, handleLoginSubmit } = useUserContext();
+  const { handleLogin, loginState, handleEmailChange, handlePasswordChange } =
+    useUserContext();
   return (
     <div className="login">
-      <form className="login-form" onSubmit={handleLoginSubmit(handleLogin)}>
+      <form className="login-form" onSubmit={handleLogin}>
         <h1>
           Hello,<br></br> Welcome Back
         </h1>
@@ -16,7 +17,10 @@ const Login = ({ signUp }: any) => {
             type="email"
             title="Email"
             placeholder="Enter your E-mail."
-            {...loginRegister("email")}
+            name="email"
+            value={loginState?.email}
+            onChange={handleEmailChange}
+            required
           />
         </label>
         <label>
@@ -24,8 +28,11 @@ const Login = ({ signUp }: any) => {
             className="input"
             type="password"
             title="Password"
+            name="password"
             placeholder="Enter your Password."
-            {...loginRegister("password")}
+            value={loginState?.password}
+            onChange={handlePasswordChange}
+            required
           />
         </label>
         <input
